@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   server_utils.c                                     :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 12:54:26 by blackrider        #+#    #+#             */
-/*   Updated: 2024/02/23 14:42:59 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/02/24 14:49:29 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,4 +59,12 @@ void	delcsd(void *data)
 void	emptyft(void)
 {
 	return ;
+}
+
+int	errorhand(int errcode, const char *msg)
+{
+	ft_printf("%s\n", msg);
+	if (errcode)
+		exit(-1);
+	return (-1);
 }

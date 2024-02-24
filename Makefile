@@ -6,7 +6,7 @@
 #    By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/23 17:12:08 by blackrider        #+#    #+#              #
-#    Updated: 2024/02/24 13:17:44 by blackrider       ###   ########.fr        #
+#    Updated: 2024/02/24 14:04:28 by blackrider       ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,8 +28,8 @@ FTPRINTFDIR = ft_printf
 FTPRINTF = ftprintf
 
 CC = gcc
-CFLAGS = -Wall -Wextra
-CFLAGSO = -c -Wall -Wextra
+CFLAGS = -g -Wall -Wextra
+CFLAGSO = -g -c -Wall -Wextra
 
 .PHONY: all, re, fclean, clean
 
