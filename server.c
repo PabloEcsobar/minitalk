@@ -6,61 +6,57 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 12:21:30 by blackrider        #+#    #+#             */
-/*   Updated: 2024/02/22 15:21:20 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/02/24 12:42:15 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "clientserver.h"
 
-t_llist    *ll_global = NULL;
+t_llist	*g_ll = NULL;
 
-void    sighandler(int signum, siginfo_t *si, void *unctx)
+void	sighandler(int signum, siginfo_t *si, void *unctx)
 {
-    int     counter;
-    char    *msg;
-	t_llist	*tmp;
+	int			counter;
+	t_llist		*tmp;
 
-	tmp = findpid(ll_global, si->si_pid);
-    msg = ((t_csd *)tmp->data)->msg;
+	tmp = findpid(g_ll, si->si_pid);
 	if (!tmp)
-        tmp = llistadd_back(&ll_global, llistnewnode(newcsd(si->si_pid, "")));
-    counter = ((t_csd *)tmp->data)->counter;
-    if (signum)
-		*(msg + counter / BYTESIZE) |= 1;
-    if (!(counter % BYTESIZE))
+		tmp = llistadd_back(&g_ll, llistnewnode(newcsd(si->si_pid, "")));
+	counter = ++((t_csd *)tmp->data)->counter;
+	if (signum == SIGUSR1)
+		((t_csd *)(tmp->data))->chr |= 1;
+	if (!(counter % BYTESIZE))
 	{
-		if (!*msg)
-        {
-			printf("%s\n", msg);
-			llistdelnode(&tmp, delcsd);
-        }
-		((t_csd *)tmp->data)->msg = ft_strjoinfree(msg, "", 0);
+		((t_csd *)(tmp->data))->msg = ft_straddchrfree(
+				((t_csd *)(tmp->data))->msg, ((t_csd *)(tmp->data))->chr);
+		if (!((t_csd *)(tmp->data))->chr)
+		{
+			ft_printf("%s\n", ((t_csd *)(tmp->data))->msg);
+			g_ll = llistdelnode(&tmp, delcsd);
+		}
+		else
+			((t_csd *)(tmp->data))->chr = 0;
 	}
 	else
-		*(msg + counter / BYTESIZE) <<= 1;
+		((t_csd *)(tmp->data))->chr <<= 1;
 	kill(si->si_pid, SIGUSR1);
 }
 
-void    server()
+int	main(void)
 {
-    struct sigaction sa;
-    
-    sa.sa_sigaction = sighandler;
-    sa.sa_flags = SA_SIGINFO;
-    sigemptyset(&sa.sa_mask);
-    sigaddset(&sa.sa_mask, SIGUSR1);
-    sigaddset(&sa.sa_mask, SIGUSR2);
-    sigaction(SIGUSR1, &sa, NULL);
-    sigaction(SIGUSR2, &sa, NULL);
-    printf("%d\n", getpid());
-    while (1)
-    {
+	struct sigaction	sa;
 
-    }
-}
-
-int main(void)
-{
-    server();
-    return (0);
+	sa.sa_sigaction = sighandler;
+	sa.sa_flags = SA_SIGINFO;
+	sigemptyset(&sa.sa_mask);
+	sigaddset(&sa.sa_mask, SIGUSR1);
+	sigaddset(&sa.sa_mask, SIGUSR2);
+	if (sigaction(SIGUSR1, &sa, NULL) < 0)
+		return (-1);
+	if (sigaction(SIGUSR2, &sa, NULL) < 0)
+		return (-1);
+	ft_printf("%d\n", getpid());
+	while (1)
+		pause();
+	return (0);
 }
