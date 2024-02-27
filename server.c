@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 12:21:30 by blackrider        #+#    #+#             */
-/*   Updated: 2024/02/24 14:38:30 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/02/27 18:16:19 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,6 @@ int	main(void)
 	sigemptyset(&sa.sa_mask);
 	sigaddset(&sa.sa_mask, SIGUSR1);
 	sigaddset(&sa.sa_mask, SIGUSR2);
-	sigaddset(&sa.sa_mask, SIGTERM);
-	sigaddset(&sa.sa_mask, SIGINT);
 	if (sigaction(SIGUSR1, &sa, NULL) < 0)
 		return (errorhand(-1, "ERROR sigaction()!!!"));
 	if (sigaction(SIGUSR2, &sa, NULL) < 0)

@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 12:19:03 by blackrider        #+#    #+#             */
-/*   Updated: 2024/02/24 14:49:07 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/02/27 18:47:24 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,11 @@ int		g_gotanswear = 0;
 void	sendchar(int serverpid, char ch)
 {
 	int			i;
-	t_uchar		mask;
 
-	i = 0;
-	mask = 128;
-	while (i < BYTESIZE)
+	i = BYTESIZE - 1;
+	while (i >= 0)
 	{
-		if (mask & (ch << i))
+		if ((ch >> i) % 2)
 		{
 			if (kill(serverpid, SIGUSR1))
 				errorhand(-1, "ERROR!!!Perhaps bad PID");
@@ -35,7 +33,7 @@ void	sendchar(int serverpid, char ch)
 		}
 		while (!g_gotanswear)
 			emptyft();
-		++i;
+		--i;
 		g_gotanswear = 0;
 	}
 }
