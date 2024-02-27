@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 12:19:03 by blackrider        #+#    #+#             */
-/*   Updated: 2024/02/27 18:47:24 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/02/27 18:55:20 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	sendchar(int serverpid, char ch)
 				errorhand(-1, "ERROR!!!Perhaps bad PID");
 		}
 		while (!g_gotanswear)
-			emptyft();
+			pause();
 		--i;
 		g_gotanswear = 0;
 	}
