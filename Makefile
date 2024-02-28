@@ -6,7 +6,7 @@
 #    By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/23 17:12:08 by blackrider        #+#    #+#              #
-#    Updated: 2024/02/28 18:37:00 by blackrider       ###   ########.fr        #
+#    Updated: 2024/02/28 18:41:24 by blackrider       ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,9 +30,11 @@ CC = gcc
 CFLAGS = -Wall -Wextra
 CFLAGSO = -c -Wall -Wextra
 
-.PHONY: all, re, fclean, clean
+.PHONY: all, re, fclean, clean, bonus
 
 all: $(CLIENTSERVER)
+
+bonus: $(CLIENTSERVER)
 
 srv: $(N_SERVER)
 
