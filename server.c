@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 12:21:30 by blackrider        #+#    #+#             */
-/*   Updated: 2024/02/28 18:36:39 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/02/29 10:07:18 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,6 @@ void	usrsighand(int signum, siginfo_t *si)
 
 void	sighandler(int signum, siginfo_t *si, void *unctx)
 {
-	if (signum == SIGINT)
-	{
-		llistclear(&g_ll, delcsd);
-		errorhand(1, "The server has bin succesfull shut down");
-	}
 	if (signum != SIGUSR1 && signum != SIGUSR2)
 	{
 		llistclear(&g_ll, delcsd);
@@ -67,15 +62,9 @@ int	main(void)
 	sigemptyset(&sa.sa_mask);
 	sigaddset(&sa.sa_mask, SIGUSR1);
 	sigaddset(&sa.sa_mask, SIGUSR2);
-	sigaddset(&sa.sa_mask, SIGTERM);
-	sigaddset(&sa.sa_mask, SIGINT);
 	if (sigaction(SIGUSR1, &sa, NULL) < 0)
 		return (errorhand(-1, "ERROR sigaction()!!!"));
 	if (sigaction(SIGUSR2, &sa, NULL) < 0)
-		return (errorhand(-1, "ERROR sigaction()!!!"));
-	if (sigaction(SIGINT, &sa, NULL) < 0)
-		return (errorhand(-1, "ERROR sigaction()!!!"));
-	if (sigaction(SIGTERM, &sa, NULL) < 0)
 		return (errorhand(-1, "ERROR sigaction()!!!"));
 	ft_printf("%d\n", getpid());
 	while (1)
